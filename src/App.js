@@ -1,23 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useState } from "react";
+import "./App.css"
 
 function App() {
+  const [ pendingWords, setPendingWords ] = useState(["Hello", "world"])
+  const [ history, setHistory ] = useState ("")
+  const [ currentLetterIndex, setCurrentLetterIndex ] = useState(0)
+  const [ currentWordIndex, setCurrentWordIndex ] = useState (0)
+
+  function handleTextChange(event) {
+    if ( event.target.value == " ") {
+      setCurrentWordIndex (currentWordIndex + 1)
+      setCurrentLetterIndex ( 0 )
+    } else {
+      setHistory(history+event.target.value)
+      setCurrentLetterIndex(currentLetterIndex + 1)
+    }
+  }
+
+  function getClassName (i, j) {
+    // past word
+      // wrong word
+      // right word
+
+    // active word
+      // typed
+        // right
+        // wrong
+      // not typed
+
+    // future word
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {pendingWords.map ( (word, i) => {
+        return(
+          <>
+            {
+              word.split("").map((letter, j) => {
+                return(
+                  <>
+                    <span className={getClassName(i, j)} >{letter}</span>
+                  </>
+                )
+              })
+            }
+          </>
+        )
+      })}
+
+      <input type='text' value='' onChange={handleTextChange} />
     </div>
   );
 }
