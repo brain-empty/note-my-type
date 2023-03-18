@@ -7,13 +7,16 @@
 }
 
 .historyWrong {
-    color:#a00;
+    color:rgb(255, 0, 0);
 }
 
 .currentWordCorrect {
     color:white;
 }
 
+.currentWordWrong {
+    color:red;
+}
 .currentWordPending {
     color:black;
 }

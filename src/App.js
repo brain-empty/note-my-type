@@ -3,8 +3,12 @@ import { useState } from "react";
 import "./App.css"
 
 function App() {
-  const [ pendingWords, setPendingWords ] = useState(["Hello1", "world"])
-  const [ history, setHistory ] = useState (["done", "this1"])
+  const [ pendingWords, setPendingWords ] = useState(["Hello1", "world", "okay", "rip", "bozo"])
+  const [ history, setHistory ] = useState ([])
+
+  const [ wordCorrect, setWordCorrect ] = useState ([])
+  const [ letterCorrect, setLetterCorrect ] = useState ([])
+
   const [ letterHistory, setLetterHistory ] = useState("")
   const [ currentLetterIndex, setCurrentLetterIndex ] = useState(0)
   const [ currentWordIndex, setCurrentWordIndex ] = useState (0)
@@ -17,11 +21,28 @@ function App() {
       setCurrentLetterIndex ( 0 )
       setLetterHistory ( "" )
 
+      if ( wordCorrect[currentWordIndex] == null ){
+        setWordCorrect ([...wordCorrect, 1])
+      }
+      setLetterCorrect ([])
+
       setHistory ( [ ...history, pendingWords.shift() ] )
 
-      // pendingWords.shift();
       setPendingWords( pendingWords )
     } else {
+      setLetterCorrect([...letterCorrect, 0])
+      const expectedCurrentLetter = pendingWords[0][currentLetterIndex]
+
+      if ( event.target.value != expectedCurrentLetter ){
+        if ( wordCorrect[currentWordIndex] == null ){
+          setWordCorrect([...wordCorrect, 0])
+        }
+        setLetterCorrect([...letterCorrect, 0])
+      }
+      else {
+        setLetterCorrect([...letterCorrect, 1])
+      }
+
       setLetterHistory( letterHistory + event.target.value )
       setCurrentLetterIndex(currentLetterIndex + 1)
     }
@@ -29,20 +50,21 @@ function App() {
 
   function getClassName (i, j) {
     // past word
-    if ( i < currentWordIndex ) {
+    if ( i < currentWordIndex && wordCorrect[ i ]  == 1) {
       return "historyRight";
+    } 
+    else if ( i < currentWordIndex && wordCorrect[ i ] == 0) { 
+      return "historyWrong"
     }
-      // wrong word
 
     // active word
     else if ( i == currentWordIndex ) {
-      console.log(j)
-      if ( j < currentLetterIndex ) {
+      if ( letterCorrect[j] == 1 ) {
         return "currentWordCorrect"
       }
-      // else if (  ) {
-      //   return "currentWordWrong"
-      // }
+      else if ( letterCorrect[j] == 0 ) {
+        return "currentWordWrong"
+      }
       // else if (  ) {
       //   return "currentWordExtra"
       // } 
@@ -68,8 +90,8 @@ function App() {
                 </>
               )
             })
-          }
-        </>
+          } <></>
+        </> 
       )
   }
 
