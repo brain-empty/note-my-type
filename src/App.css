@@ -1,0 +1,23 @@
+*{
+    background-color: #aae5a4;
+}
+
+.historyRight {
+    color: #0a0;
+}
+
+.historyWrong {
+    color:#a00;
+}
+
+.currentWordCorrect {
+    color:white;
+}
+
+.currentWordPending {
+    color:black;
+}
+
+.futureWord {
+    color:rgb(154, 154, 228);
+}
